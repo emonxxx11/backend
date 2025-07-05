@@ -2,32 +2,24 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Your alias mapping
 const linkDB = {
-  "-001": "https://example.com/file1",
-  "-002": "https://example.com/file2",
-  "-003": "https://example.com/file3",
-  // Add more as needed
+  "001": "https://google.com",
+  "002": "https://youtube.com"
 };
 
-// Route handler
 app.get("/:alias", (req, res) => {
-  const alias = `-${req.params.alias}`;
-  const originalURL = linkDB[alias];
-
-  if (originalURL) {
-    return res.redirect(originalURL); // redirect to original URL
-  } else {
-    return res.status(404).send("❌ Link not found");
+  const alias = req.params.alias;
+  const redirectURL = linkDB[alias];
+  if (redirectURL) {
+    return res.redirect(redirectURL);
   }
+  res.status(404).send("❌ Link not found");
 });
 
-// Root page (optional)
 app.get("/", (req, res) => {
-  res.send("✅ MissionPay Short Link Redirector is Running!");
+  res.send("✅ MissionPay Shortlink Redirector is live!");
 });
 
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
